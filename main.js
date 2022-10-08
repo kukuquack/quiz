@@ -96,6 +96,7 @@ document.getElementById('next').onclick = function () {
         if (currentAnswer == allQuestions[currentQuestionNumber][allQuestions[currentQuestionNumber]['correctAnswer']]) {
             score += 100;
             document.getElementById('score').innerHTML = score;
+            document.getElementById('next').style.display = 'none';
         }
         currentQuestionNumber += 1;
         if (allQuestions.length < currentQuestionNumber + 1) {
@@ -112,6 +113,7 @@ document.getElementById('next').onclick = function () {
             document.getElementById('ans2c').style.backgroundColor = 'white';
             document.getElementById('ans3c').style.backgroundColor = 'white';
             document.getElementById('ans4c').style.backgroundColor = 'white';
+            document.getElementById('next').style.display = 'none';
         }
     }
 }
