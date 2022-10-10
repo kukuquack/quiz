@@ -1,168 +1,133 @@
+// Here are the variables that contain the user's current answer and score.
 let currentAnswer = '';
+let score = 0;
+let currentAnswerIndex = '';
+// Storing the current question's number.
+let currentQuestionNumber = 0;
 
-function shuffle(array) {
-    let currentIndex = array.length, randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex != 0) {
-
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        // And swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex], array[currentIndex]];
-    }
-
-    return array;
+// Probability
+let probability = {
+    'Programmer': {
+        'score': 0,
+        'image': 'https://img.freepik.com/free-photo/professional-programmer-working-late-dark-office_1098-18705.jpg?w=1380&t=st=1665331169~exp=1665331769~hmac=2df8b1c249025035a77bbddd9a144b58029e517b702c6fc45873c4e3500a2047',
+    },
+    'Artist': {
+        'score': 0,
+        'image': 'https://img.freepik.com/free-photo/young-male-painter-holding-painting-brushes-white_114579-91595.jpg?w=1380&t=st=1665331230~exp=1665331830~hmac=b74ee69de48bc26b8dabc224f9bc30e96f02f078509969d9f61d433fc7ac65fd',
+    },
+    'Engineer': {
+        'score': 0,
+        'image': 'https://img.freepik.com/free-photo/pointing-sketch_1098-14323.jpg?w=1380&t=st=1665331274~exp=1665331874~hmac=f4c3d81aca0dfba3ff34cadbc5eb8095a5024a742c757ff1e46e2ccd6e56ac6a',
+    },
 }
 
-// Used like so
-var arr = [2, 11, 37, 42];
-shuffle(arr);
+// Here is the list of the questions.
 
-document.getElementById('ans1c').onclick = function () {
-    let currentElement = '1';
-    let otherElements = ['4', '2', '3']
-    if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor != 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'rgb(216, 0, 216)';
-        document.getElementById('ans' + otherElements[0] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[1] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[2] + 'c').style.backgroundColor = 'white';
-        currentAnswer = document.getElementById('ans' + currentElement).innerHTML;
-        document.getElementById('ans' + otherElements[0] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('ans' + otherElements[1] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('ans' + otherElements[2] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('next').style.display = 'block';
-    } else if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor == 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'white';
-        document.getElementById('next').style.display = 'none';
-        currentAnswer = '';
+let allQuestions = [
+    {
+        question: "Do you like maths?",
+        image: 'https://img.freepik.com/free-vector/scientific-formulas-chalkboard_23-2148494010.jpg?w=1380&t=st=1665323200~exp=1665323800~hmac=6c44b5092c887857b5ac1af351284d15c974e21fad52d37be6924de6164f3382',
+        options: ["It's my BEST subject!", "It's OK I guess...", "🤮 I HATE MATHS"],
+        scores: [[1, 0, 1], [0, 0.5, 0], [0, 1, 0]]
+    },
+    {
+        question: "Do you like scientific subjects, or do you like the arts?",
+        image: 'https://img.freepik.com/premium-photo/boss-vs-leader-concept-white-origami-birds-red-one-blue-background_495423-5512.jpg?w=1380',
+        options: ['Scientific', 'Arts'],
+        scores: [[1, 0, 1], [0, 1, 0]]
+    },
+    {
+        question: "Are you into tech?",
+        image: 'https://img.freepik.com/free-vector/software-engineering-background_1284-3394.jpg?w=826&t=st=1665323482~exp=1665324082~hmac=705546004543d990be8a0b9ead4bd7e801cb1a05be3a291feee44f196820fa42',
+        options: ['I ADORE tech', 'I am a pretty simple human'],
+        scores: [[1, 0, 1], [0, 1, 0]]
+    },
+]
+
+// Setting up the first question.
+
+let answerArray = [];
+
+function displayContent(questionNumber) {
+    answerArray = [];
+    document.getElementById("question").innerHTML = allQuestions[questionNumber]['question'];
+    for (let i = 0; i < allQuestions[questionNumber]['options'].length; i++) {
+        answerArray.push(allQuestions[questionNumber]['options'][i])
     }
-}
-
-document.getElementById('ans2c').onclick = function () {
-    let currentElement = '2';
-    let otherElements = ['1', '4', '3']
-    if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor != 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'rgb(216, 0, 216)';
-        document.getElementById('ans' + otherElements[0] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[1] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[2] + 'c').style.backgroundColor = 'white';
-        currentAnswer = document.getElementById('ans' + currentElement).innerHTML;
-        document.getElementById('ans' + otherElements[0] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('ans' + otherElements[1] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('ans' + otherElements[2] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('next').style.display = 'block';
-    } else if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor == 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'white';
-        document.getElementById('next').style.display = 'none';
-        currentAnswer = '';
+    document.getElementById('all-answers').innerHTML = '';
+    for (let i = 1; i <= allQuestions[questionNumber]['options'].length; i++) {
+        document.getElementById('all-answers').innerHTML += '<div id="ans' + i + 'c" class="answer-block"><h3 id="ans' + i + '">' + allQuestions[questionNumber]['options'][i - 1] + '</h3></div>';
     }
+    document.getElementById("img-content").src = allQuestions[questionNumber]['image'];
 }
+displayContent(0);
 
-document.getElementById('ans3c').onclick = function () {
-    let currentElement = '3';
-    let otherElements = ['1', '2', '4']
-    if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor != 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'rgb(216, 0, 216)';
-        document.getElementById('ans' + otherElements[0] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[1] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[2] + 'c').style.backgroundColor = 'white';
-        currentAnswer = document.getElementById('ans' + currentElement).innerHTML;
-        document.getElementById('ans' + otherElements[0] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('ans' + otherElements[1] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('ans' + otherElements[2] + 'c').style.boxShadow = 'shadow:inset 0 0 0 3px #e5e3f0';
-        document.getElementById('next').style.display = 'block';
-    } else if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor == 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'white';
-        document.getElementById('next').style.display = 'none';
-        currentAnswer = '';
+document.addEventListener('click', event => {
+    let id = '';
+    if (event.target.id[event.target.id.length - 1] != 'c') {
+        id = event.target.id + 'c';
+    } else {
+        id = event.target.id;
     }
-}
+    if (event.target.id.indexOf('ans') == 0) {
+        if (document.getElementById(id).style.backgroundColor != 'rgb(216, 0, 216)') {
+            if (currentAnswerIndex != '') {
+                document.getElementById('ans' + currentAnswerIndex + 'c').style.backgroundColor = 'white';
+            }
+            currentAnswerIndex = event.target.id[3];
+            document.getElementById(id).style.backgroundColor = 'rgb(216, 0, 216)';
+            currentAnswer = document.getElementById(id.slice(0, -1)).innerHTML;
+            document.getElementById('next').style.display = 'block';
+        } else {
+            document.getElementById(id).style.backgroundColor = 'white';
+            document.getElementById('next').style.display = 'none';
+            currentAnswer = '';
+        }
+    }
+});
 
-
-function showScore() {
-    document.getElementById("question-block").innerHTML = '<h1 style="font-size: 92px; margin-top: 200px;">Your Score is:</h1><br><h1 style="color:rgb(11, 207, 11); font-size: 86px;">' + score + '</h1>';
+// This function is set off when the quiz is finished. It creates a bit 'Your Score is:' text along with the score. Confetti added.
+function showCharacter(character) {
+    document.getElementById("question-block").innerHTML = '<h1 style="font-size: 92px; margin-top: 200px;">Your Character is:</h1><br><h1 style="color:rgb(11, 207, 11); font-size: 86px;">' + character + '</h1>';
     canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
 
     startConfetti();
 }
 
+// When the next button is clicked, this function is set off. It checks if you got the correct answer in order to increase your score. It also shows you the score at the end, and shows you the next question.
 document.getElementById('next').onclick = function () {
     if (currentAnswer != '') {
-        if (currentAnswer == allQuestions[currentQuestionNumber][allQuestions[currentQuestionNumber]['correctAnswer']]) {
-            score += 100;
-            document.getElementById('score').innerHTML = score;
-            document.getElementById('next').style.display = 'none';
+        for (let j = 0; j < Object.keys(probability).length; j++) {
+            console.log(allQuestions[currentQuestionNumber]['scores'][parseInt(currentAnswerIndex) - 1][j])
+            probability[Object.keys(probability)[j]]['score'] += allQuestions[currentQuestionNumber]['scores'][parseInt(currentAnswerIndex) - 1][j];
         }
+        currentAnswer = '';
+        currentAnswerIndex = '';
         currentQuestionNumber += 1;
         if (allQuestions.length < currentQuestionNumber + 1) {
-            showScore();
+            console.log(probability)
+            showCharacter(biggestInDictionary());
         } else {
-            document.getElementById("question").innerHTML = allQuestions[Object.keys(allQuestions)[currentQuestionNumber]]['question'];
-            answerArray = [allQuestions[currentQuestionNumber]['firstOption'], allQuestions[currentQuestionNumber]['secondOption'], allQuestions[currentQuestionNumber]['thirdOption'], allQuestions[currentQuestionNumber]['fourthOption']];
-            shuffle(answerArray);
-            document.getElementById("ans1").innerHTML = answerArray[0];
-            document.getElementById("ans2").innerHTML = answerArray[1];
-            document.getElementById("ans3").innerHTML = answerArray[2];
-            document.getElementById("ans4").innerHTML = answerArray[3];
-            document.getElementById('ans1c').style.backgroundColor = 'white';
-            document.getElementById('ans2c').style.backgroundColor = 'white';
-            document.getElementById('ans3c').style.backgroundColor = 'white';
-            document.getElementById('ans4c').style.backgroundColor = 'white';
+            displayContent(currentQuestionNumber);
+            for (let i = 1; i <= answerArray.length; i++) {
+                document.getElementById('ans' + i + 'c').style.backgroundColor = 'white';
+            }
             document.getElementById('next').style.display = 'none';
         }
     }
 }
 
-document.getElementById('ans4c').onclick = function () {
-    let currentElement = '4';
-    let otherElements = ['1', '2', '3']
-    if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor != 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'rgb(216, 0, 216)';
-        document.getElementById('ans' + otherElements[0] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[1] + 'c').style.backgroundColor = 'white';
-        document.getElementById('ans' + otherElements[2] + 'c').style.backgroundColor = 'white';
-        currentAnswer = document.getElementById('ans' + currentElement).innerHTML;
-        document.getElementById('next').style.display = 'block';
-    } else if (document.getElementById('ans' + currentElement + 'c').style.backgroundColor == 'rgb(216, 0, 216)') {
-        document.getElementById('ans' + currentElement + 'c').style.backgroundColor = 'white';
-        document.getElementById('next').style.display = 'none';
-        currentAnswer = '';
+function biggestInDictionary() {
+    let biggest = 0;
+    for (let i = 0; i < Object.keys(probability).length; i++) {
+        if (probability[Object.keys(probability)[i]]['score'] > biggest) {
+            biggest = probability[Object.keys(probability)[i]]['score'];
+        }
+    }
+    for (let i = 0; i < Object.keys(probability).length; i++) {
+        if (probability[Object.keys(probability)[i]]['score'] == biggest) {
+            return Object.keys(probability)[i];
+        }
     }
 }
-let allQuestions = [
-    {
-        // questionNumber: "Math-1",
-        question: "Solve the following equation: 3 × 10 ÷ 5 + 128 ÷ 2 = ?",
-        firstOption: "67",
-        secondOption: "68",
-        thirdOption: "134",
-        fourthOption: "70",
-        correctAnswer: "fourthOption"
-    },
-    {
-        // questionNumber: "Math-2",
-        question: "Solve the following equation: 20 × 0 + 235 - 76 ÷ 2 + 1 = ?",
-        firstOption: "198",
-        secondOption: "53",
-        thirdOption: "80.5",
-        fourthOption: "90.5",
-        correctAnswer: "firstOption"
-    }]
-
-let currentQuestionNumber = 0;
-let answerArray = [allQuestions[currentQuestionNumber]['firstOption'], allQuestions[currentQuestionNumber]['secondOption'], allQuestions[currentQuestionNumber]['thirdOption'], allQuestions[currentQuestionNumber]['fourthOption']];
-shuffle(answerArray);
-document.getElementById("question").innerHTML = allQuestions[Object.keys(allQuestions)[currentQuestionNumber]]['question'];
-
-document.getElementById("ans1").innerHTML = answerArray[0];
-document.getElementById("ans2").innerHTML = answerArray[1];
-document.getElementById("ans3").innerHTML = answerArray[2];
-document.getElementById("ans4").innerHTML = answerArray[3];
-
-let score = 0;
-document.getElementById("score").innerHTML = score;
